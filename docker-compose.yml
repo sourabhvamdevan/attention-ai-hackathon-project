@@ -1,0 +1,26 @@
+
+version: '3.8'
+
+services:
+  
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/storage:/app/storage
+    environment:
+      - ENV=production
+    restart: always
+
+ 
+  frontend:
+    build: ./frontend/vite-build
+    ports:
+      - "5173:5173"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8000
